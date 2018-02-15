@@ -17,6 +17,62 @@ import static org.junit.Assert.*;
 public class ListTest {
     
     @Test
+    public void deleteOK() {
+        ArrayList<String> prenoms = new ArrayList();
+        
+        prenoms.add("Pierre");
+        prenoms.add("Paul");
+        prenoms.add("Jacques");
+        prenoms.add("Paul");
+        
+        for(String p : prenoms) {
+            System.out.println(p);
+        }
+        
+        System.out.println("");
+        
+        prenoms.remove("Paul");
+        
+        for(String p : prenoms) {
+            System.out.println(p);
+        }
+        
+        System.out.println("____________________________________");
+        
+        ArrayList<String> couleurs1 = new ArrayList();
+        ArrayList<String> couleurs2 = new ArrayList();
+        
+        couleurs1.add("vert");
+        couleurs1.add("bleu");
+        couleurs1.add("jaune");
+        couleurs1.add("violet");
+        couleurs1.add("rouge");
+        couleurs1.add("rose");
+        couleurs1.add("marron");
+        couleurs1.add("rouge");
+        couleurs1.add("beige");
+        couleurs1.add("orange");
+        couleurs1.add("gris");
+        
+        couleurs2.add("rouge");
+        couleurs2.add("jaune");
+        couleurs2.add("orange");
+        couleurs2.add("noir");
+                
+        for(String c : couleurs1) {
+            System.out.println(c);
+        }
+        
+        System.out.println("");
+        
+        couleurs1.removeAll(couleurs2);
+        
+        for(String c : couleurs1) {
+            System.out.println(c);
+        }
+    }
+    
+    //@Test
     public void factorielleAvecBigIntegerOK() {
         int i;
         int n=50;
@@ -31,7 +87,7 @@ public class ListTest {
         }
     }
     
-    @Test
+    //@Test
     public void factorielleOK() {
         int i;
         int n=50;
@@ -46,7 +102,7 @@ public class ListTest {
         }
     }
     
-    @Test
+    //@Test
     public void nombresPremiersOK() {
         ArrayList<Integer> nombresPremiers = new ArrayList();
         int i=2;
@@ -71,7 +127,7 @@ public class ListTest {
         
     }
     
-    @Test
+    //@Test
     public void addAvecIndiceOK() {
         
         ArrayList<Integer> nombresPremiers = new ArrayList();
@@ -86,7 +142,7 @@ public class ListTest {
         }
     }
     
-    @Test
+    //@Test
     public void removeOK() {
         
         ArrayList<String> capitales = new ArrayList<>();
