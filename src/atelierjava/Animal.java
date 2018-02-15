@@ -16,7 +16,7 @@ public class Animal {
     int tailleEnCm;
     float poidsEnKg;
     String genre;
-    String espece;
+    String espece; 
 
     @Override
     public String toString() {
