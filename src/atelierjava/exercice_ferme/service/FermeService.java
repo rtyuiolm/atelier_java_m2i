@@ -5,12 +5,19 @@
  */
 package atelierjava.exercice_ferme.service;
 
+import atelierjava.exercice_ferme.dao.FermeDAO;
+import atelierjava.exercice_ferme.entite.Ferme;
+import java.util.ArrayList;
+
 /**
  *
  * @author Formation
  */
 public class FermeService {
     
+    
+    //private static ArrayList<Ferme> fermes = new ArrayList<>();
+            
     /**
      * pseudo: 3 à 8 lettres
      * mdp: 5 à 10 lettres
@@ -20,20 +27,31 @@ public class FermeService {
      * @param mdp 
      */
     public void inscription(String pseudo, String mdp) {
-        if(pseudo.length()<3 || pseudo.length()>8) {
-            System.out.println("Le pseudo doit contenir de 3 à 8 lettres");
-        }
-        if(mdp.length()<5 || mdp.length()>10) {
-            System.out.println("Le mot de passe doit contenir de 5 à 10 lettres");
+        if(! pseudo.matches(".{3,8}")) {
+            throw new RuntimeException("Le pseudo doit contenir de 3 à 8 lettres");
         }
         
-        boolean contientUnChiffre=false;
-        int i;
-        for(i=0;i<mdp.length();i++) {
-            /*if(! Character.isDigit(mdp[i])) {
-                contientUnChiffre=true;
-            }*/
+        if(! mdp.matches(".{5,10}")) {
+            throw new RuntimeException("Le mot de passe doit contenir de 5 à 10 lettres");
+        }
+        
+        if(! mdp.matches(".*\\d.*")) {
+            throw new RuntimeException("Le mot de passe doit contenir au moins un chiffre.");
         }
        
+        if(! mdp.matches(".*[A-Z].*")) {
+            throw new RuntimeException("Le mot de passe doit contenir au moins une majuscule.");
+        }
+        
+        FermeDAO fdao = new FermeDAO();
+        if(fdao.existe(pseudo)) {
+            throw new RuntimeException("Ce pseudo est déjà pris.");
+        }
+        
+        //Ajouter la ferme en BDD
+        Ferme ferme = new Ferme();
+        ferme.setNom(pseudo);
+        ferme.setMotDePasse(mdp);
+        fdao.ajouter(ferme);
     }
 }
