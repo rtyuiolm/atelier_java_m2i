@@ -5,15 +5,15 @@
  */
 package atelierjava.exercice_ferme.service;
 
-import atelierjava.exercice_ferme.dao.FermeDAO;
-import atelierjava.exercice_ferme.entite.Ferme;
+import atelierjava.exercice_ferme.dao.JoueurDAO;
+import atelierjava.exercice_ferme.entite.Joueur;
 import java.util.ArrayList;
 
 /**
  *
  * @author Formation
  */
-public class FermeService {
+public class JoueurService {
     
     
     //private static ArrayList<Ferme> fermes = new ArrayList<>();
@@ -43,15 +43,25 @@ public class FermeService {
             throw new RuntimeException("Le mot de passe doit contenir au moins une majuscule.");
         }
         
-        FermeDAO fdao = new FermeDAO();
+        JoueurDAO fdao = new JoueurDAO();
         if(fdao.existe(pseudo)) {
             throw new RuntimeException("Ce pseudo est déjà pris.");
         }
         
         //Ajouter la ferme en BDD
-        Ferme ferme = new Ferme();
-        ferme.setNom(pseudo);
+        Joueur ferme = new Joueur();
+        ferme.setPseudo(pseudo);
         ferme.setMotDePasse(mdp);
         fdao.ajouter(ferme);
+    }
+    
+    public void connexion(String pseudo, String mdp) {
+        JoueurDAO fdao = new JoueurDAO();
+        
+        if(! fdao.existe(pseudo,mdp)){
+            throw new RuntimeException("Identifiant ou mot de passe incorrect");
+        }
+        
+        
     }
 }
