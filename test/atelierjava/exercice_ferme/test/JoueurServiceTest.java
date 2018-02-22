@@ -40,8 +40,7 @@ public class JoueurServiceTest {
     @Test(expected = RuntimeException.class)
     public void connexionKO() {
         JoueurService js = new JoueurService();
-        
-        js.inscription("abcg", "A2azertt");
+       
         js.connexion("abcg", "A2ahertt");
     }
 }

@@ -7,6 +7,9 @@ package atelierjava.exercice_ferme.dao;
 
 import atelierjava.exercice_ferme.entite.Joueur;
 import java.util.ArrayList;
+import javax.persistence.EntityManager;
+import javax.persistence.Persistence;
+import javax.persistence.Query;
 
 /**
  *
@@ -14,35 +17,48 @@ import java.util.ArrayList;
  */
 public class JoueurDAO {
     
-    private static ArrayList<Joueur> joueurs = new ArrayList<>();
+
     
-    public void ajouter(Joueur ferme) {
-        joueurs.add(ferme);
+    public void ajouter(Joueur j) {
+        EntityManager em = Persistence.createEntityManagerFactory("PU").createEntityManager();
+        em.getTransaction().begin();
+        
+        
+        
+        em.persist(j);
+        
+        em.getTransaction().commit();
     }
     
-    public Joueur recherche(String login) {
-        for(Joueur j : joueurs) {
-            if(j.getPseudo().equals(login)) {
-                return j;
-            }
-        }
-        return null;
+    public Joueur recherche(String pseudo) {
+        EntityManager em = Persistence.createEntityManagerFactory("PU").createEntityManager();
+        
+        Query query = em.createQuery("SELECT j FROM Joueur  j WHERE j.pseudo=:pseudoRecherche");
+        query.setParameter("pseudoRecherche", pseudo);
+        
+        Joueur j = (Joueur) query.getSingleResult();
+        
+        return j;
     }
     
-    public boolean existe(String login, String mdp) {
-        for(Joueur j : joueurs) {
-            if(j.getPseudo().equals(login) && j.getMotDePasse().equals(mdp)) {
-                return true;
-            }
+    public boolean existe(String pseudo, String mdp) {
+        EntityManager em = Persistence.createEntityManagerFactory("PU").createEntityManager();
+        
+        
+        Query query = em.createQuery("SELECT COUNT(j) FROM Joueur j WHERE j.pseudo=:pseudoExistant AND j.motDePasse=:mdp");
+        query.setParameter("pseudoExistant", pseudo);
+        query.setParameter("mdp", mdp);
+        
+        Long nbRes = (Long) query.getSingleResult();
+        
+        if(nbRes==0) {
+            return false;
         }
-        return false;
+        
+        return true;
     }
     
     public boolean existe(String login) {
-        Joueur j = this.recherche(login);
-        if(j==null) {
-            return false;
-        }
         return true;
     }
 }
