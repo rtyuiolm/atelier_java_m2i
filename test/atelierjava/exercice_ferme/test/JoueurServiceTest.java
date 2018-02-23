@@ -5,6 +5,7 @@
  */
 package atelierjava.exercice_ferme.test;
 
+import atelierjava.exercice_ferme.entite.Joueur;
 import atelierjava.exercice_ferme.service.JoueurService;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -14,6 +15,14 @@ import static org.junit.Assert.*;
  * @author Formation
  */
 public class JoueurServiceTest {
+    
+    @Test
+    public void rejoindrePartieOK() {
+        JoueurService js = new JoueurService();
+        js.inscription("tota", "Art2ol");
+        Joueur joueur = js.connexion("tota", "Art2ol");
+        js.rejoindrePartie(joueur.getId());
+    }
     
     @Test
     public void inscriptionOK() {

@@ -7,6 +7,8 @@ package atelierjava.exercice_ferme.entite;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -26,12 +28,14 @@ public class Ressource implements Serializable {
     private Long id;
 
     public enum TypeRessource{
-        ANIMAL_MOUTON,
-        ANIMAL_VACHE,
-        CULTURE_BLE,
-        CULTURE_MAIS
+        CHEVRE,
+        BLE,
+        CAROTTE,
+        FERMIER,
+        FROMAGE
     }
     
+    @Enumerated(value = EnumType.STRING)
     private TypeRessource designation;
     private String nom;
     

@@ -6,7 +6,9 @@
 package atelierjava.exercice_ferme.service;
 
 import atelierjava.exercice_ferme.dao.JoueurDAO;
+import atelierjava.exercice_ferme.dao.RessourceDAO;
 import atelierjava.exercice_ferme.entite.Joueur;
+import atelierjava.exercice_ferme.entite.Ressource;
 import java.util.ArrayList;
 
 /**
@@ -15,6 +17,42 @@ import java.util.ArrayList;
  */
 public class JoueurService {
     
+    public void ajouterRessource(Long joueurId, Ressource.TypeRessource typeRessource, long quantite) {
+        //Genere les ressources si aucune ressource
+        JoueurDAO jdao = new JoueurDAO();
+        Joueur joueur = jdao.rechercher(joueurId);
+    
+            int i;
+            for(i=0;i<quantite;i++) {
+                Ressource ressource = new Ressource();
+                ressource.setDesignation(typeRessource);
+                ressource.setJoueur(joueur);
+                joueur.getRessourcesPossedees().add(ressource);
+            
+                RessourceDAO rdao = new RessourceDAO();
+            
+                rdao.ajouter(ressource);
+            }
+    }
+    
+    public void rejoindrePartie(long idJoueur) {
+        
+        //Genere les ressources si aucune ressource
+        JoueurDAO jdao = new JoueurDAO();
+        Joueur joueur = jdao.rechercher(idJoueur);
+    
+        if(joueur.getRessourcesPossedees().isEmpty()) {
+            // Ajouter 5 carottes
+            ajouterRessource(idJoueur, Ressource.TypeRessource.CAROTTE, 5);
+            // Ajouter 5 blés
+            ajouterRessource(idJoueur, Ressource.TypeRessource.BLE, 5);
+            // Ajouter 5 chèvres
+            ajouterRessource(idJoueur, Ressource.TypeRessource.CHEVRE, 5);
+            // Ajouter 2 fermiers
+            ajouterRessource(idJoueur, Ressource.TypeRessource.FERMIER, 2);
+        }
+    
+    }
     
     //private static ArrayList<Ferme> fermes = new ArrayList<>();
             
@@ -55,13 +93,10 @@ public class JoueurService {
         fdao.ajouter(ferme);
     }
     
-    public void connexion(String pseudo, String mdp) {
+    public Joueur connexion(String pseudo, String mdp) {
         JoueurDAO fdao = new JoueurDAO();
+        Joueur j = fdao.rechercher(pseudo, mdp);
         
-        if(! fdao.existe(pseudo,mdp)){
-            throw new RuntimeException("Identifiant ou mot de passe incorrect");
-        }
-        
-        
+        return j;
     }
 }
