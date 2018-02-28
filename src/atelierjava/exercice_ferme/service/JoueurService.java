@@ -9,6 +9,8 @@ import atelierjava.exercice_ferme.dao.JoueurDAO;
 import atelierjava.exercice_ferme.dao.RessourceDAO;
 import atelierjava.exercice_ferme.entite.Joueur;
 import atelierjava.exercice_ferme.entite.Ressource;
+import atelierjava.exercice_ferme.exception.PseudoExisteException;
+import atelierjava.exercice_ferme.exception.ValidationException;
 import java.util.ArrayList;
 
 /**
@@ -64,26 +66,26 @@ public class JoueurService {
      * @param pseudo
      * @param mdp 
      */
-    public void inscription(String pseudo, String mdp) {
+    public void inscription(String pseudo, String mdp) throws ValidationException, PseudoExisteException {
         if(! pseudo.matches(".{3,8}")) {
-            throw new RuntimeException("Le pseudo doit contenir de 3 à 8 lettres");
+            throw new ValidationException("Le pseudo doit contenir de 3 à 8 lettres");
         }
         
         if(! mdp.matches(".{5,10}")) {
-            throw new RuntimeException("Le mot de passe doit contenir de 5 à 10 lettres");
+            throw new ValidationException("Le mot de passe doit contenir de 5 à 10 lettres");
         }
         
         if(! mdp.matches(".*\\d.*")) {
-            throw new RuntimeException("Le mot de passe doit contenir au moins un chiffre.");
+            throw new ValidationException("Le mot de passe doit contenir au moins un chiffre.");
         }
        
         if(! mdp.matches(".*[A-Z].*")) {
-            throw new RuntimeException("Le mot de passe doit contenir au moins une majuscule.");
+            throw new ValidationException("Le mot de passe doit contenir au moins une majuscule.");
         }
         
         JoueurDAO fdao = new JoueurDAO();
         if(fdao.existe(pseudo)) {
-            throw new RuntimeException("Ce pseudo est déjà pris.");
+            throw new PseudoExisteException("Ce pseudo est déjà pris.");
         }
         
         //Ajouter la ferme en BDD
